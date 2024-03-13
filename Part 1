@@ -1,25 +1,5 @@
 import numpy as np
 
-class matrix:
-    def __init__(self, matrix1):
-        self.matrix1 = np.array(matrix1)
-        
-    def MM(self, matrix2):
-        self.matrix2 = np.array(matrix2)
-        multiplication = np.dot(self.matrix1, self.matrix2)
-        return multiplication
-        
-    def MV(self, vector):
-        vector = np.array(vector)
-        if vector.ndim != 1 or vector.shape[0] != self.matrix1.shape[1]:
-            raise ValueError("Vector's dimension is incorrect")
-        multiplication = np.dot(self.matrix1, vector)
-        return multiplication
-
-
-with comments
-import numpy as np
-
 class Matrix: #create a class
     def __init__(self, matrix1):
         #store the matrix1 as an attribute of the class
