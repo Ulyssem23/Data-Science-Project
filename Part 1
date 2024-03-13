@@ -1,4 +1,6 @@
 import numpy as np
+from scipy.sparse import csr_matrix
+
 
 class matrix: #create a class
     def __init__(self, matrix1):
