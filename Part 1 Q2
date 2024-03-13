@@ -89,39 +89,43 @@ class noLibraryMatrix: #create a new class
 def MV(self, vector): #vector matrix multiplication
     #store the vector as an attribute of the class
     self.vector = vector
-    # Check if the vector is one-dimensional (consists of only integers or floats)
+    #check if the vector is one-dimensional 
     is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
-    # If the vector is not one-dimensional, raise a ValueError
+    #if the vector is not one-dimensional, raise a ValueError
     if not is_one_dimensional:
         raise ValueError("Vector's dimension is incorrect")
-    # Initialize a result list with zeros
+    #initialize a result list with zeros
     result = [0] * len(self.M1)
-    # Perform matrix-vector multiplication
-    # Iterate over the rows of the first matrix, self.M1
+
+    #iterate over the rows of M1
     for i in range(len(self.M1)):
-        # Iterate over the elements of the vector
+        #iterate over the elements of the vector
         for k in range(len(vector)):
-            # Multiply corresponding elements of M1 and the vector, and add to the result
+            #multiply  elements of M1 and the vector and add to the result
             result[i] += self.M1[i][k] * vector[k]
-    # Return the result list
     return result
 
 
-class SparseMatrix(noLibraryMatrix):
+class SparseMatrix(noLibraryMatrix): #create a new class
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)
 
     def MM(self, other):
-        # Check if the dimensions of the matrices are compatible
+        #check if the dimensions of the matrices are compatible
         if len(self.M1[0]) != len(other):
-            raise ValueError("Matrices dimensions are not compatible for multiplication.")
-        
-        # Perform matrix multiplication
-        result = []
-        for row in self.M1:
-            row_result = []
-            for i in range(len(other[0])):
-                element = sum(row[j] * other[j][i] for j in range(len(row)))
-                row_result.append(element)
-            result.append(row_result)
-        return result
+            raise ValueError("Matrices dimensions are not compatible for multiplication")
+       
+       result = []  
+#initialize an empty list to store the result matrix
+for row in self.M1:  # Iterate over each row in the first matrix, self.M1
+    row_result = []  # Initialize an empty list to store the result row
+    for i in range(len(other[0])):  # Iterate over the columns of the second matrix, other
+        # Compute the dot product of the current row of self.M1 and the corresponding column of other
+        element = sum(row[j] * other[j][i] for j in range(len(row)))
+        # Append the dot product to the result row
+        row_result.append(element)
+    # Append the result row to the result matrix
+    result.append(row_result)
+# Return the result matrix
+return result
+
