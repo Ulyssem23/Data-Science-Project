@@ -50,3 +50,27 @@ class sparseMatrix(matrix):
         sparseM = csr_matrix(self.matrix1)
         return sparseM
 
+
+code with comments
+        
+    def ADD(self, matrix3):
+        self.matrix3 = np.array(matrix3)  #convert matrix3 to NumPy array
+        addition = np.add(self.matrix1, self.matrix3)  #addition of 2 matrices
+        return addition
+    
+    def SUB(self, matrix4):
+        self.matrix4 = np.array(matrix4)  #convert matrix4 to NumPy array
+        subtraction = np.subtract(self.matrix1, self.matrix4)  #subtraction of 2 matrices
+        return subtraction
+    
+class DenseMatrix(Matrix):  #define a subclass DenseMatrix of the Matrix class
+    def __init__(self, matrix1):
+        Matrix.__init__(self, matrix1) 
+
+class SparseMatrix(Matrix):  #define a subclass SparseMatrix of the Matrix class
+    def __init__(self, matrix1):
+        Matrix.__init__(self, matrix1)  
+        
+    
+
+
