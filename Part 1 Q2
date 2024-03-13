@@ -26,3 +26,42 @@ class noLibraryMatrix:
             result.append(row)
         
         return result
+
+
+class noLibraryMatrix: #create a new class
+    def __init__(self, M1: list[list]):
+        self.M1 = M1  #store M1 as an attribute of the class
+
+#create basic operations for matrices without using libraries
+    def MM(self, M2):
+        self.M2 = M2  #store M2 as an attribute of the class
+        
+        #initialize result matrix with zeros
+#len(self.M1): length of M1 = number of rows in the matrix, len(M2[0]): length of the first row of M2 = number of columns
+# 0 for _ in range(len(M2[0])): list with zeros, where the number of zeros is equal to the number of columns in M2, _ is a throwaway variable, dont need the value of the loop variable
+#for _ in range(len(self.M1)): iterates over the number of rows in M1, for each row, it creates a list of zeros
+        result = [[0 for _ in range(len(M2[0]))] for _ in range(len(self.M1))]
+        
+        # Perform matrix multiplication
+        for i in range(len(self.M1)):
+            for j in range(len(self.M2[0])):
+                for k in range(len(self.M2)):
+                    result[i][j] += self.M1[i][k] * self.M2[k][j]  # Update each element of the result matrix
+        
+        return result
+
+    def ADD(self, M3):
+        self.M3 = M3  # Store the third matrix M3 as an attribute of the class
+        result = []  # Initialize the result list
+        
+        # Iterate over each row of the matrices M1 and M3
+        for i in range(len(self.M1)):
+            row = []  # Initialize a row for the result matrix
+            # Iterate over each column of the matrices M1 and M3
+            for j in range(len(self.M1[0])):
+                # Add corresponding elements of M1 and M3 and append to the row
+                row.append(self.M1[i][j] + M3[i][j])
+            # Append the row to the result matrix
+            result.append(row)
+        
+        return result  # Return the result matrix
