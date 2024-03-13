@@ -107,3 +107,21 @@ def MV(self, vector): #vector matrix multiplication
     return result
 
 
+class SparseMatrix(noLibraryMatrix):
+    def __init__(self, M1):
+        noLibraryMatrix.__init__(self, M1)
+
+    def MM(self, other):
+        # Check if the dimensions of the matrices are compatible
+        if len(self.M1[0]) != len(other):
+            raise ValueError("Matrices dimensions are not compatible for multiplication.")
+        
+        # Perform matrix multiplication
+        result = []
+        for row in self.M1:
+            row_result = []
+            for i in range(len(other[0])):
+                element = sum(row[j] * other[j][i] for j in range(len(row)))
+                row_result.append(element)
+            result.append(row_result)
+        return result
