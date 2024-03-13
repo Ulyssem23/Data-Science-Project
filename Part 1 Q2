@@ -15,3 +15,14 @@ class noLibraryMatrix:
                     result[i][j] += self.M1[i][k] * self.M2[k][j]
         
         return result
+
+    def ADD(self, M3):
+        self.M3 = M3
+        result = []
+        for i in range(len(self.M1)):
+            row = []
+            for j in range(len(self.M1[0])):
+                row.append(self.M1[i][j] + M3[i][j])
+            result.append(row)
+        
+        return result
