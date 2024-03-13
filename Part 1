@@ -1,6 +1,6 @@
 import numpy as np
 
-class Matrix: #create a class
+class matrix: #create a class
     def __init__(self, matrix1):
         #store the matrix1 as an attribute of the class
         self.matrix1 = np.array(matrix1)
