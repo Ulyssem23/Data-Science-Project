@@ -70,26 +70,40 @@ class noLibraryMatrix: #create a new class
         
         return result 
 
-    def SUB(self, M3):
-        self.M3 = M3
-        result = []
-        for i in range(len(self.M1)):
-            row = []
-            for j in range(len(self.M1[0])):
-                row.append(self.M1[i][j] - M3[i][j])
-            result.append(row)
-        return result
+  def SUB(self, M3): #substraction
+    #store  M3 as an attribute of the class
+    self.M3 = M3
+    #initialize an empty list to store the result matrix
+    result = []
+    #iterate over the rows of M1
+    for i in range(len(self.M1)):
+        #initialize an empty list to store each row of the result matrix
+        row = []
+        #iterate over the columns of M1
+        for j in range(len(self.M1[0])):
+            #subtract elements of M1 and M3 and append to the row
+            row.append(self.M1[i][j] - M3[i][j])
+        result.append(row)
+     return result
 
-    def MV(self, vector):
-        self.vector = vector
-        is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
-        if not is_one_dimensional:
-            raise ValueError("Vector's dimension is incorrect")
-        # Initialize result matrix with zeros
-        result = [0] * len(self.M1)
-        # Perform matrix multiplication
-        for i in range(len(self.M1)):
-            for k in range(len(vector)):
-                result[i] += self.M1[i][k] * vector[k]
-        return result
+def MV(self, vector): #vector matrix multiplication
+    #store the vector as an attribute of the class
+    self.vector = vector
+    # Check if the vector is one-dimensional (consists of only integers or floats)
+    is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
+    # If the vector is not one-dimensional, raise a ValueError
+    if not is_one_dimensional:
+        raise ValueError("Vector's dimension is incorrect")
+    # Initialize a result list with zeros
+    result = [0] * len(self.M1)
+    # Perform matrix-vector multiplication
+    # Iterate over the rows of the first matrix, self.M1
+    for i in range(len(self.M1)):
+        # Iterate over the elements of the vector
+        for k in range(len(vector)):
+            # Multiply corresponding elements of M1 and the vector, and add to the result
+            result[i] += self.M1[i][k] * vector[k]
+    # Return the result list
+    return result
+
 
