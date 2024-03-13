@@ -33,7 +33,8 @@ class noLibraryMatrix: #create a new class
         self.M1 = M1  #store M1 as an attribute of the class
 
 #create basic operations for matrices without using libraries
-    def MM(self, M2):
+
+    def MM(self, M2):  #matrix multiplication
         self.M2 = M2  #store M2 as an attribute of the class
         
         #initialize result matrix with zeros
@@ -42,29 +43,32 @@ class noLibraryMatrix: #create a new class
 #for _ in range(len(self.M1)): iterates over the number of rows in M1, for each row, it creates a list of zeros
         result = [[0 for _ in range(len(M2[0]))] for _ in range(len(self.M1))]
         
-        # Perform matrix multiplication
-        for i in range(len(self.M1)):
-            for j in range(len(self.M2[0])):
-                for k in range(len(self.M2)):
-                    result[i][j] += self.M1[i][k] * self.M2[k][j]  # Update each element of the result matrix
-        
-        return result
+      for i in range(len(self.M1)):
+    #loop over the rows of M1
+    for j in range(len(self.M2[0])):
+        #loop over the columns of M2
+        for k in range(len(self.M2)):
+            #loop over the rows of the second matrix M2 + columns of the first matrix M1
+            #compute dot product between the ith row of M1 and the kth column of M2
+            result[i][j] += self.M1[i][k] * self.M2[k][j]
+           #update each element of the result matrix
+         return result
 
-    def ADD(self, M3):
-        self.M3 = M3  # Store the third matrix M3 as an attribute of the class
-        result = []  # Initialize the result list
+    def ADD(self, M3): #addition
+        self.M3 = M3  #store  M3 as an attribute of the class
+        result = []  #initialize result list
         
-        # Iterate over each row of the matrices M1 and M3
+        #iterate over each row of the matrices M1 and M3
         for i in range(len(self.M1)):
-            row = []  # Initialize a row for the result matrix
-            # Iterate over each column of the matrices M1 and M3
+            row = []  #initialize a row for the result matrix
+            #iterate over each column of the matrices M1 and M3
             for j in range(len(self.M1[0])):
-                # Add corresponding elements of M1 and M3 and append to the row
+                #add corresponding elements of M1 and M3 and append to the row
                 row.append(self.M1[i][j] + M3[i][j])
-            # Append the row to the result matrix
+            #append row to the result matrix
             result.append(row)
         
-        return result  # Return the result matrix
+        return result 
 
     def SUB(self, M3):
         self.M3 = M3
