@@ -106,26 +106,24 @@ def MV(self, vector): #vector matrix multiplication
     return result
 
 
-class SparseMatrix(noLibraryMatrix): #create a new class
+class SparseMatrix(noLibraryMatrix):
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)
 
     def MM(self, other):
-        #check if the dimensions of the matrices are compatible
+        # Check if the dimensions of the matrices are compatible
         if len(self.M1[0]) != len(other):
-            raise ValueError("Matrices dimensions are not compatible for multiplication")
-       
-       result = []  
-#initialize an empty list to store the result matrix
-for row in self.M1:  # Iterate over each row in the first matrix, self.M1
-    row_result = []  # Initialize an empty list to store the result row
-    for i in range(len(other[0])):  # Iterate over the columns of the second matrix, other
-        # Compute the dot product of the current row of self.M1 and the corresponding column of other
-        element = sum(row[j] * other[j][i] for j in range(len(row)))
-        # Append the dot product to the result row
-        row_result.append(element)
-    # Append the result row to the result matrix
-    result.append(row_result)
-# Return the result matrix
-return result
+            raise ValueError("Matrices dimensions are not compatible for multiplication.")
+        
+        # Perform matrix multiplication
+        result = []
+        for i in range(len(self.M1)):
+            row_result = []
+            for j in range(len(other[0])):
+                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other)))
+                if element != 0:
+                    row_result.append((i, j, element))  # Store (row, column, value)
+            result.append(row_result)
+        
+        return result
 
