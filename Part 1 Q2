@@ -65,3 +65,27 @@ class noLibraryMatrix: #create a new class
             result.append(row)
         
         return result  # Return the result matrix
+
+    def SUB(self, M3):
+        self.M3 = M3
+        result = []
+        for i in range(len(self.M1)):
+            row = []
+            for j in range(len(self.M1[0])):
+                row.append(self.M1[i][j] - M3[i][j])
+            result.append(row)
+        return result
+
+    def MV(self, vector):
+        self.vector = vector
+        is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
+        if not is_one_dimensional:
+            raise ValueError("Vector's dimension is incorrect")
+        # Initialize result matrix with zeros
+        result = [0] * len(self.M1)
+        # Perform matrix multiplication
+        for i in range(len(self.M1)):
+            for k in range(len(vector)):
+                result[i] += self.M1[i][k] * vector[k]
+        return result
+
