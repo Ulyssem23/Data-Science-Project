@@ -1,39 +1,17 @@
-
 import numpy as np
 
 class matrix:
-    def __init__(self, data):
-        self.data = np.array(data)
-        
-    def MM(self, matrix1, matrix2):
+    def __init__(self, matrix1):
         self.matrix1 = np.array(matrix1)
+        
+    def MM(self, matrix2):
         self.matrix2 = np.array(matrix2)
         multiplication = np.dot(self.matrix1, self.matrix2)
         return multiplication
         
-    def MV(self, matrix0, vector):
-        self.matrix0 = np.array(matrix0)
-        self.vector = np.array(vector)
-        if len(self.vector)!=1 or self.vector.shape[0]<1:
-            raise ValueError
-        else:
-            multiplication = np.dot(self.matrix0, self.vector)
-            return multiplication
-
-chatgpt
-import numpy as np
-
-class Matrix:
-    def __init__(self, data):
-        self.data = np.array(data)
-        
-    def MM(self, matrix2):
-        multiplication = np.dot(self.data, matrix2.data)
-        return multiplication
-        
     def MV(self, vector):
         vector = np.array(vector)
-        if vector.ndim != 1 or vector.shape[0] != self.data.shape[1]:
-            raise ValueError("Vector should be a 1D array with the same length as the number of columns in the matrix")
-        multiplication = np.dot(self.data, vector)
+        if vector.ndim != 1 or vector.shape[0] != self.matrix1.shape[1]:
+            raise ValueError("Vector's dimension is incorrect")
+        multiplication = np.dot(self.matrix1, vector)
         return multiplication
