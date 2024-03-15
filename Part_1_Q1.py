@@ -28,31 +28,7 @@ class matrix: #create a class
         multiplication = np.dot(self.matrix1, vector)
         #return the result of the multiplication
         return multiplication
-
-    def ADD(self, matrix3):
-        self.matrix3 = np.array(matrix3)
-        addition = np.add(self.matrix1, self.matrix3)
-        return addition
-    
-    def SUB(self, matrix4):
-        self.matrix4 = np.array(matrix4)
-        subtraction = np.subtract(self.matrix1, self.matrix4)
-        return subtraction
-    
-class denseMatrix(matrix):
-    def __init__(self, matrix1):
-        matrix.__init__(self, matrix1)
-
-class sparseMatrix(matrix):
-    def __init__(self, matrix1):
-        matrix.__init__(self, matrix1)
-    def sparse(self):
-        sparseM = csr_matrix(self.matrix1)
-        return sparseM
-
-
-code with comments
-        
+      
     def ADD(self, matrix3):
         self.matrix3 = np.array(matrix3)  #convert matrix3 to NumPy array
         addition = np.add(self.matrix1, self.matrix3)  #addition of 2 matrices
