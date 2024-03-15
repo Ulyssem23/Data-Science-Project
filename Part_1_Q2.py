@@ -65,8 +65,32 @@ class noLibraryMatrix: #create a new class
         return max_col_sum
     
     def normL2(self):
-        #
+        #The L2 norm of a matrix is defined as the square root of the sum of the squares of all the elements in the matrix.
+        
+        sum_of_squares = 0
 
+        #iterate through each row and column of the matrix
+        for i in range(len(self.M1)):
+            for j in range(len(self.M1[i])):
+                #square each element and add it to the sum
+                sum_of_squares += self.M1[i][j] ** 2
+
+        #take the square root of the sum to get the L2 norm
+        l2_norm = sum_of_squares ** 0.5
+        return l2_norm
+    
+    def normLinf(self):
+        #The L∞ norm of a matrix is defined as the maximum absolute row sum of the matrix
+        max_sum = 0
+        rows = len(self.M1)
+        cols = len(self.M1[0])  # Assuming all rows have the same number of columns
+
+        for i in range(rows):
+            row_sum = sum(abs(self.M1[i][j]) for j in range(cols))
+            max_sum = max(max_sum, row_sum)
+
+        return max_sum
+        
 class DenseMatrix(noLibraryMatrix): #create a new child class
     def __init__(self, M1):
         noLibraryMatrix.__init__(M1)
