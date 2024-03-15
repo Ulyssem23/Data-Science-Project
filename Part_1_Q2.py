@@ -24,6 +24,25 @@ class noLibraryMatrix: #create a new class
            #update each element of the result matrix
          return result
 
+def MV(self, vector): #vector matrix multiplication
+        #store the vector as an attribute of the class
+        self.vector = vector
+        #check if the vector is one-dimensional 
+        is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
+        #if the vector is not one-dimensional, raise a ValueError
+        if not is_one_dimensional:
+            raise ValueError("Vector's dimension is incorrect")
+        #initialize a result list with zeros
+        result = [0] * len(self.M1)
+    
+        #iterate over the rows of M1
+        for i in range(len(self.M1)):
+            #iterate over the elements of the vector
+            for k in range(len(vector)):
+                #multiply  elements of M1 and the vector and add to the result
+                result[i] += self.M1[i][k] * vector[k]
+        return result
+
     def ADD(self, M3): #addition
         self.M3 = M3  #store  M3 as an attribute of the class
         result = []  #initialize result list
@@ -55,25 +74,6 @@ class noLibraryMatrix: #create a new class
             row.append(self.M1[i][j] - M3[i][j])
         result.append(row)
      return result
-
-def MV(self, vector): #vector matrix multiplication
-    #store the vector as an attribute of the class
-    self.vector = vector
-    #check if the vector is one-dimensional 
-    is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
-    #if the vector is not one-dimensional, raise a ValueError
-    if not is_one_dimensional:
-        raise ValueError("Vector's dimension is incorrect")
-    #initialize a result list with zeros
-    result = [0] * len(self.M1)
-
-    #iterate over the rows of M1
-    for i in range(len(self.M1)):
-        #iterate over the elements of the vector
-        for k in range(len(vector)):
-            #multiply  elements of M1 and the vector and add to the result
-            result[i] += self.M1[i][k] * vector[k]
-    return result
 
 
 class SparseMatrix(noLibraryMatrix):
