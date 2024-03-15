@@ -30,17 +30,13 @@ class matrix: #create a class
         subtraction = np.subtract(self.matrix1, self.matrix4)  #subtraction of 2 matrices
         return subtraction
 
-class DenseMatrix(Matrix):  #define a subclass DenseMatrix of the Matrix class
+class DenseMatrix(matrix):  #define a subclass DenseMatrix of the Matrix class
     def __init__(self, matrix1):
-        Matrix.__init__(self, matrix1) 
+        matrix.__init__(self, matrix1) 
 
-class SparseMatrix(Matrix):  #define a subclass SparseMatrix of the Matrix class
+class SparseMatrix(matrix):  #define a subclass SparseMatrix of the Matrix class
     def __init__(self, matrix1):
-        Matrix.__init__(self, matrix1)
+        matrix.__init__(self, matrix1)
 """    def sparse(self):
         sparseM = csr_matrix(self.matrix1)
         return sparseM"""
-        
-    
-
-
