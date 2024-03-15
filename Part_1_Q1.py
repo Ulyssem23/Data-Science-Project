@@ -39,31 +39,16 @@ class matrix: #create a class
         subtraction = np.subtract(self.matrix1, self.matrix4)  #subtraction of 2 matrices
         return subtraction
 
-    def normL1(self):
-        #The L1 norm of a matrix is defined as the maximum absolute column sum of the matrix.
-        #In other words, it is the maximum absolute sum of the elements in each column of the matrix
-        #Initialize the maximum absolute column sum to 0
-        max_col_sum = 0
-
-        # Iterate over each column
-        for j in range(len(self.M1[0])):
-            # Initialize the column sum for the current column
-            col_sum = 0
-            # Iterate over each row in the current column and sum up the absolute values
-            for i in range(len(self.M1)):
-                col_sum += abs(self.M1[i][j])
-            # Update the maximum absolute column sum if necessary
-            max_col_sum = max(max_col_sum, col_sum)
-
-        return max_col_sum
-
 class DenseMatrix(Matrix):  #define a subclass DenseMatrix of the Matrix class
     def __init__(self, matrix1):
         Matrix.__init__(self, matrix1) 
 
 class SparseMatrix(Matrix):  #define a subclass SparseMatrix of the Matrix class
     def __init__(self, matrix1):
-        Matrix.__init__(self, matrix1)  
+        Matrix.__init__(self, matrix1)
+"""    def sparse(self):
+        sparseM = csr_matrix(self.matrix1)
+        return sparseM"""
         
     
 
