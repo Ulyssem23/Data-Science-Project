@@ -83,9 +83,8 @@ class noLibraryMatrix: #create a new class
         cols = len(self.M1[0])  #all rows have the same number of columns (square matrices)
 
         for i in range(rows):  # Iterate over each row
-            row_sum = sum(abs(self.M1[i][j]) 
-                for j in range(cols))  #compute absolute sum of elements in the current row
-                   max_sum = max(max_sum, row_sum)   # Update the maximum absolute row sum if necessary
+            row_sum = sum(abs(self.M1[i][j]) for j in range(cols))  #compute absolute sum of elements in the current row
+            max_sum = max(max_sum, row_sum)   # Update the maximum absolute row sum if necessary
         return max_sum
         
 class DenseMatrix(noLibraryMatrix):  #create a new child class
