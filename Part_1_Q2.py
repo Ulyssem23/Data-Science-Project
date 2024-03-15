@@ -1,33 +1,3 @@
-class noLibraryMatrix:
-    def __init__(self, M1: list[list]):
-        self.M1 = M1
-    
-    def MM(self, M2):
-        self.M2 = M2
-        
-        # Initialize result matrix with zeros
-        result = [[0 for _ in range(len(M2[0]))] for _ in range(len(self.M1))]
-
-        # Perform matrix multiplication
-        for i in range(len(self.M1)):
-            for j in range(len(self.M2[0])):
-                for k in range(len(self.M2)):
-                    result[i][j] += self.M1[i][k] * self.M2[k][j]
-        
-        return result
-
-    def ADD(self, M3):
-        self.M3 = M3
-        result = []
-        for i in range(len(self.M1)):
-            row = []
-            for j in range(len(self.M1[0])):
-                row.append(self.M1[i][j] + M3[i][j])
-            result.append(row)
-        
-        return result
-
-
 class noLibraryMatrix: #create a new class
     def __init__(self, M1: list[list]):
         self.M1 = M1  #store M1 as an attribute of the class
