@@ -13,102 +13,72 @@ class noLibraryMatrix: #create a new class
 #for _ in range(len(self.M1)): iterates over the number of rows in M1, for each row, it creates a list of zeros
         result = [[0 for _ in range(len(M2[0]))] for _ in range(len(self.M1))]
         
-        for i in range(len(self.M1)):
-    #loop over the rows of M1
-            for j in range(len(self.M2[0])):
-        #loop over the columns of M2
-                for k in range(len(self.M2)):
-            #loop over the rows of the second matrix M2 + columns of the first matrix M1
-            #compute dot product between the ith row of M1 and the kth column of M2
-                    result[i][j] += self.M1[i][k] * self.M2[k][j]
-           #update each element of the result matrix
+        for i in range(len(self.M1)):   #loop over the rows of M1
+            for j in range(len(self.M2[0])):    #loop over the columns of M2
+                for k in range(len(self.M2)):   #loop over the rows of the second matrix M2 + columns of the first matrix M1
+                    result[i][j] += self.M1[i][k] * self.M2[k][j]   #compute dot product between the ith row of M1 and the kth column of M2 + update each element of the result matrix
         return result
 
     def MV(self, vector): #vector matrix multiplication
-            #store the vector as an attribute of the class
-            self.vector = vector
-            #check if the vector is one-dimensional 
-            is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)
-            #if the vector is not one-dimensional, raise a ValueError
+            self.vector = vector  #store the vector as an attribute of the class
+            is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)   #check if the vector is one-dimensional 
             if not is_one_dimensional:
-                raise ValueError("Vector's dimension is incorrect")
-            #initialize a result list with zeros
-            result = [0] * len(self.M1)
+                raise ValueError("Vector's dimension is incorrect")   #if the vector is not one-dimensional, raise a ValueError
+            result = [0] * len(self.M1)   #initialize a result list with zeros
         
-            #iterate over the rows of M1
-            for i in range(len(self.M1)):
-                #iterate over the elements of the vector
-                for k in range(len(vector)):
-                    #multiply  elements of M1 and the vector and add to the result
-                    result[i] += self.M1[i][k] * vector[k]
+            for i in range(len(self.M1)):  #iterate over the rows of M1
+                for k in range(len(vector)):   #iterate over the elements of the vector
+                    result[i] += self.M1[i][k] * vector[k]  #multiply  elements of M1 and the vector and add to the result
             return result
 
     def ADD(self, M3): #addition
         self.M3 = M3  #store  M3 as an attribute of the class
         result = []  #initialize result list
         
-        #iterate over each row of the matrices M1 and M3
-        for i in range(len(self.M1)):
+        for i in range(len(self.M1)):   #iterate over each row of the matrices M1 and M3
             row = []  #initialize a row for the result matrix
-            #iterate over each column of the matrices M1 and M3
-            for j in range(len(self.M1[0])):
-                #add corresponding elements of M1 and M3 and append to the row
-                row.append(self.M1[i][j] + M3[i][j])
-            #append row to the result matrix
-            result.append(row)
-        
+            for j in range(len(self.M1[0])):    #iterate over each column of the matrices M1 and M3
+                row.append(self.M1[i][j] + M3[i][j])  #add corresponding elements of M1 and M3 and append to the row
+            result.append(row)   #append row to the result matrix
         return result 
 
     def SUB(self, M3): #substraction
-        #store  M3 as an attribute of the class
-        self.M3 = M3
-        #initialize an empty list to store the result matrix
-        result = []
-        #iterate over the rows of M1
-        for i in range(len(self.M1)):
-            #initialize an empty list to store each row of the result matrix
-            row = []
-            #iterate over the columns of M1
-            for j in range(len(self.M1[0])):
-                #subtract elements of M1 and M3 and append to the row
-                row.append(self.M1[i][j] - M3[i][j])
+        self.M3 = M3   #store  M3 as an attribute of the class
+        result = []   #initialize an empty list to store the result matrix
+        for i in range(len(self.M1)):   #iterate over the rows of M1
+            row = []  #initialize an empty list to store each row of the result matrix
+            for j in range(len(self.M1[0])):  #iterate over the columns of M1
+                row.append(self.M1[i][j] - M3[i][j])   #subtract elements of M1 and M3 and append to the row
             result.append(row)
         return result
 
     def normL1(self):
         #The L1 norm of a matrix is defined as the maximum absolute column sum of the matrix.
-        #In other words, it is the maximum absolute sum of the elements in each column of the matrix
-        #Initialize the maximum absolute column sum to 0
-        max_col_sum = 0
+       
+        max_col_sum = 0  #initialize the maximum absolute column sum to 0
 
-        # Iterate over each column
-        for j in range(len(self.M1[0])):
-            # Initialize the column sum for the current column
-            col_sum = 0
-            # Iterate over each row in the current column and sum up the absolute values
-            for i in range(len(self.M1)):
-                col_sum += abs(self.M1[i][j])
-            # Update the maximum absolute column sum if necessary
-            max_col_sum = max(max_col_sum, col_sum)
+        for j in range(len(self.M1[0])): #iterate over each column
+            col_sum = 0 #initialize the column sum for the current column
+            for i in range(len(self.M1)):  #iterate over each row in the current column and sum up the absolute values
+                col_sum += abs(self.M1[i][j]) 
+            max_col_sum = max(max_col_sum, col_sum)  #update the maximum absolute column sum if necessary
         return max_col_sum
     
     def normL2(self):
         #
 
-class DenseMatrix(noLibraryMatrix):
+class DenseMatrix(noLibraryMatrix): #create a new child class
     def __init__(self, M1):
         noLibraryMatrix.__init__(M1)
 
-class SparseMatrix(noLibraryMatrix):
+class SparseMatrix(noLibraryMatrix): #create a new  child class
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)
 
-    def MM(self, other):
-        # Check if the dimensions of the matrices are compatible
-        if len(self.M1[0]) != len(other):
+    def MM(self, other):   #matrix multiplication
+        if len(self.M1[0]) != len(other):   #check if the dimensions of the matrices are compatible
             raise ValueError("Matrices dimensions are not compatible for multiplication.")
         
-        # Perform matrix multiplication
         result = []
         for i in range(len(self.M1)):
             row_result = []
