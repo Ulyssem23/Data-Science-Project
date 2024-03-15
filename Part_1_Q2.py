@@ -88,24 +88,25 @@ class noLibraryMatrix: #create a new class
                    max_sum = max(max_sum, row_sum)   # Update the maximum absolute row sum if necessary
         return max_sum
         
-class DenseMatrix(noLibraryMatrix): #create a new child class
+class DenseMatrix(noLibraryMatrix):  #create a new child class
     def __init__(self, M1):
-        noLibraryMatrix.__init__(M1)
+        noLibraryMatrix.__init__(M1) 
 
-class SparseMatrix(noLibraryMatrix): #create a new  child class
+class SparseMatrix(noLibraryMatrix):  #create new child class
     def __init__(self, M1):
-        noLibraryMatrix.__init__(self, M1)
+        noLibraryMatrix.__init__(self, M1)  
 
-    def MM(self, other):   #matrix multiplication
-        if len(self.M1[0]) != len(other):   #check if the dimensions of the matrices are compatible
+    def MM(self, other):  #matrix multiplication
+        if len(self.M1[0]) != len(other):  #check if the dimensions of the matrices are compatible
             raise ValueError("Matrices dimensions are not compatible for multiplication.")
         
-        result = []
-        for i in range(len(self.M1)):
-            row_result = []
-            for j in range(len(other[0])):
-                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other)))
-                if element != 0:
-                    row_result.append((i, j, element))  # Store (row, column, value)
-            result.append(row_result)
+        result = []  #initialize result matrix
+        for i in range(len(self.M1)):  #iterate over each row of the first matrix
+            row_result = []  #initialize result row
+            for j in range(len(other[0])):  #iterate over each column of the second matrix
+                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other)))  #compute the element of the resulting matrix at position (i, j)
+                if element != 0:  #if the element is non-zero  store (row, column, value) tuple
+                    row_result.append((i, j, element)) 
+            result.append(row_result)  #append the result row to the result matrix
         return result
+
