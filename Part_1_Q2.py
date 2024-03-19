@@ -86,16 +86,49 @@ class noLibraryMatrix: #create a new class
             row_sum = sum(abs(self.M1[i][j]) for j in range(cols))  #compute absolute sum of elements in the current row
             max_sum = max(max_sum, row_sum)   # Update the maximum absolute row sum if necessary
         return max_sum
-        
+
+
+#PART 3 NOW
+#Compute eigenvalues:
+#A - Iλ
+#Find |A-Iλ|=0 (determinant of A-Iλ = 0)
+#Calculate possible values of λ, which are the eigenvalues of A
+    def eigenvalues(self):
+        num_rows = len(self.M1)
+        if num_rows == 0:
+            return False  # Empty matrix is not square
+        num_cols = len(self.M1[0])  # Assuming all rows have the same number of columns
+        if num_rows != num_cols:
+            raise ValueError("The matrix is not square")
+        else:
+            identity = []
+            for i in range(num_rows):
+                row = []
+                for j in range(num_rows):
+                    if i == j:
+                        row.append(λ)
+                    else:
+                        row.append(0)
+                identity.append(row)
+            subtracted_matrix = self.SUB(identity)
+            return subtracted_matrix
+            
+
+
+
+
+
+
+#PART 2 AGAIN
 class DenseMatrix(noLibraryMatrix):  #create a new child class
     def __init__(self, M1):
-        noLibraryMatrix.__init__(M1) 
+        noLibraryMatrix.__init__(self, M1) 
 
 class SparseMatrix(noLibraryMatrix):  #create new child class
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)  
 
-    def MM(self, other):  #matrix multiplication
+    def sparseMM(self, other):  #matrix multiplication
         if len(self.M1[0]) != len(other):  #check if the dimensions of the matrices are compatible
             raise ValueError("Matrices dimensions are not compatible for multiplication.")
         
@@ -109,3 +142,21 @@ class SparseMatrix(noLibraryMatrix):  #create new child class
             result.append(row_result)  #append the result row to the result matrix
         return result
 
+
+
+
+'''matrix_values = [[1, 2, 3],
+                 [4, 5, 6]]
+
+matrix_values2 = [[2, 0],
+                  [0, 1],
+                  [0, 1]]
+
+matrix_values3 = [[1, 2],
+                 [4, 5]]
+
+test = noLibraryMatrix(matrix_values3)
+
+norm = test.eigenvalues()
+
+print(norm)'''
