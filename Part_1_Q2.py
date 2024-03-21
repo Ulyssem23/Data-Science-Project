@@ -148,27 +148,72 @@ class noLibraryMatrix: #create a new class
 
 
 #PART 2 AGAIN
-class DenseMatrix(noLibraryMatrix):  #create a new child class
+class DenseMatrix(noLibraryMatrix):
     def __init__(self, M1):
-        noLibraryMatrix.__init__(self, M1) 
+        noLibraryMatrix.__init__(self, M1)
 
-class SparseMatrix(noLibraryMatrix):  #create new child class
+    def gaussian_elimination(self, vector):
+        n = len(self.M1)
+        # Convert self.M1 from tuple to list
+        self.M1 = list(map(list, self.M1))
+        # Convert vector from tuple to list
+        vector = list(vector)
+        for i in range(n):
+            # Partial pivoting
+            max_row = max(range(i, n), key=lambda x: abs(self.M1[x][i]))
+            self.M1[i], self.M1[max_row] = self.M1[max_row], self.M1[i]
+            vector[i], vector[max_row] = vector[max_row], vector[i]
+
+            # Normalize the pivot row
+            for j in range(i+1, n):
+                factor = self.M1[j][i] / self.M1[i][i]
+                for k in range(i, n):
+                    self.M1[j][k] -= factor * self.M1[i][k]
+                vector[j] -= factor * vector[i]
+
+        # Back substitution
+        x = [0 for _ in range(n)]
+        for i in range(n-1, -1, -1):
+            x[i] = vector[i]
+            for j in range(i+1, n):
+                x[i] -= self.M1[i][j] * x[j]
+            x[i] /= self.M1[i][i]
+        return x
+
+class SparseMatrix:
     def __init__(self, M1):
-        noLibraryMatrix.__init__(self, M1)  
+        self.M1 = M1
 
-    def sparseMM(self, other):  #matrix multiplication
-        if len(self.M1[0]) != len(other):  #check if the dimensions of the matrices are compatible
+    def sparseMM(self, other):
+        if len(self.M1[0]) != len(other):
             raise ValueError("Matrices dimensions are not compatible for multiplication.")
-        
-        result = []  #initialize result matrix
-        for i in range(len(self.M1)):  #iterate over each row of the first matrix
-            row_result = []  #initialize result row
-            for j in range(len(other[0])):  #iterate over each column of the second matrix
-                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other)))  #compute the element of the resulting matrix at position (i, j)
-                if element != 0:  #if the element is non-zero  store (row, column, value) tuple
-                    row_result.append((i, j, element)) 
-            result.append(row_result)  #append the result row to the result matrix
+
+        result = []
+        for i in range(len(self.M1)):
+            row_result = []
+            for j in range(len(other[0])):
+                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other)))
+                if element != 0:
+                    row_result.append((i, j, element))
+            result.append(row_result)
         return result
+
+    def jacobi_method(self, vector, matrix, iterations=1000, tolerance=1e-10):
+        n = len(vector)
+        x = [0 for _ in range(n)]  # Initial guess
+        x_new = x.copy()
+
+        for _ in range(iterations):
+            for i in range(n):
+                sum_val = 0
+                for j in range(n):
+                    if i != j:
+                        sum_val += matrix.get((i, j), 0) * x[j]
+                x_new[i] = (vector[i] - sum_val) / matrix.get((i, i), 1)
+            if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):
+                break
+            x = x_new.copy()
+        return x
 
 
 
@@ -188,3 +233,4 @@ test = noLibraryMatrix(matrix_values3)
 norm = test.eigenvalues()
 
 print(norm)'''
+
