@@ -114,23 +114,24 @@ class noLibraryMatrix: #create a new class
             return subtracted_matrix
             """
 
-    def transpose(self):
-        return [list(row) for row in zip(*self.M1)]
+ def transpose(self):
+    return [list(row) for row in zip(*self.M1)]   #transpose the matrix by unpacking each row and creating a new list of lists
 
-    def power_iteration(self, num_iterations=1000):
-        b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector
-        for _ in range(num_iterations):
-            # Multiply by matrix
-            b_k1 = [sum(row[j] * b_k[j] for j in range(len(self.M1[0]))) for row in self.M1]
-            # Normalize
-            norm = sum(x**2 for x in b_k1) ** 0.5
-            b_k = [x / norm for x in b_k1]
-        # Approximate eigenvalue
-        approx_eigenvalue = sum(
-            sum(self.M1[i][j] * b_k[j] for j in range(len(self.M1[0]))) * b_k[i] 
-            for i in range(len(self.M1))
-        )
-        return b_k, approx_eigenvalue
+def power_iteration(self, num_iterations=1000):
+    b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector   #initialize a vector with all elements as 1.0 of the same length as columns in M1
+    
+    for _ in range(num_iterations):   #iterate over a specified number of iterations
+        b_k1 = [sum(row[j] * b_k[j] for j in range(len(self.M1[0]))) for row in self.M1]  #multiply the matrix by the vector to get the next vector
+        norm = sum(x**2 for x in b_k1) ** 0.5   #normalize the vector to prevent overflow or underflow
+        b_k = [x / norm for x in b_k1]
+    
+    approx_eigenvalue = sum(  #compute the approximate eigenvalue using the vector
+        sum(self.M1[i][j] * b_k[j] for j in range(len(self.M1[0]))) * b_k[i] 
+        for i in range(len(self.M1))
+    )
+    
+    return b_k, approx_eigenvalue   #return the dominant eigenvector and its corresponding eigenvalue
+
 
     def compute_svd(self, num_iterations=1000):
         AT = self.transpose()
