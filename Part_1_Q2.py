@@ -93,7 +93,7 @@ class noLibraryMatrix: #create a new class
 #A - Iλ
 #Find |A-Iλ|=0 (determinant of A-Iλ = 0)
 #Calculate possible values of λ, which are the eigenvalues of A
-    def eigenvalues(self):
+    """def eigenvalues(self):
         num_rows = len(self.M1)
         if num_rows == 0:
             return False  # Empty matrix is not square
@@ -112,11 +112,39 @@ class noLibraryMatrix: #create a new class
                 identity.append(row)
             subtracted_matrix = self.SUB(identity)
             return subtracted_matrix
-            
+            """
 
+    def transpose(self):
+        return [list(row) for row in zip(*self.M1)]
 
+    def power_iteration(self, num_iterations=1000):
+        b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector
+        for _ in range(num_iterations):
+            # Multiply by matrix
+            b_k1 = [sum(row[j] * b_k[j] for j in range(len(self.M1[0]))) for row in self.M1]
+            # Normalize
+            norm = sum(x**2 for x in b_k1) ** 0.5
+            b_k = [x / norm for x in b_k1]
+        # Approximate eigenvalue
+        approx_eigenvalue = sum(
+            sum(self.M1[i][j] * b_k[j] for j in range(len(self.M1[0]))) * b_k[i] 
+            for i in range(len(self.M1))
+        )
+        return b_k, approx_eigenvalue
 
+    def compute_svd(self, num_iterations=1000):
+        AT = self.transpose()
+        ATA = noLibraryMatrix(AT).MM(self.M1)  # Correct multiplication order for ATA
+        eigen_vector, approx_eigenvalue = self.power_iteration(num_iterations=num_iterations)
 
+        # Simplify the computation for U, Sigma, V based on power iteration results
+        # Note: This is a simplified approach and does not fully compute SVD for educational purposes
+        sigma = approx_eigenvalue ** 0.5
+        U = [eigen_vector]  # This simplification does not fully represent U in SVD
+        Sigma = [sigma]
+        V = [eigen_vector]  # Simplification, does not fully represent V in SVD as V is not transposed
+
+        return U, Sigma, V
 
 
 #PART 2 AGAIN
