@@ -114,36 +114,36 @@ class noLibraryMatrix: #create a new class
             return subtracted_matrix
             """
 
- def transpose(self):
-    return [list(row) for row in zip(*self.M1)]   #transpose the matrix by unpacking each row and creating a new list of lists
+    def transpose(self):
+        return [list(row) for row in zip(*self.M1)]   #transpose the matrix by unpacking each row and creating a new list of lists
 
- def power_iteration(self, num_iterations=1000):
-    b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector   #initialize a vector with all elements as 1.0 of the same length as columns in M1
-    
-    for _ in range(num_iterations):   #iterate over a specified number of iterations
-        b_k1 = [sum(row[j] * b_k[j] for j in range(len(self.M1[0]))) for row in self.M1]  #multiply the matrix by the vector to get the next vector
-        norm = sum(x**2 for x in b_k1) ** 0.5   #normalize the vector to prevent overflow or underflow
-        b_k = [x / norm for x in b_k1]
-    
-    approx_eigenvalue = sum(  #compute the approximate eigenvalue using the vector
-        sum(self.M1[i][j] * b_k[j] for j in range(len(self.M1[0]))) * b_k[i] 
-        for i in range(len(self.M1))
-    )
-    
-    return b_k, approx_eigenvalue   #return the dominant eigenvector and its corresponding eigenvalue
+    def power_iteration(self, num_iterations=1000):
+        b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector   #initialize a vector with all elements as 1.0 of the same length as columns in M1
+        
+        for _ in range(num_iterations):   #iterate over a specified number of iterations
+            b_k1 = [sum(row[j] * b_k[j] for j in range(len(self.M1[0]))) for row in self.M1]  #multiply the matrix by the vector to get the next vector
+            norm = sum(x**2 for x in b_k1) ** 0.5   #normalize the vector to prevent overflow or underflow
+            b_k = [x / norm for x in b_k1]
+        
+        approx_eigenvalue = sum(  #compute the approximate eigenvalue using the vector
+            sum(self.M1[i][j] * b_k[j] for j in range(len(self.M1[0]))) * b_k[i] 
+            for i in range(len(self.M1))
+        )
+        
+        return b_k, approx_eigenvalue   #return the dominant eigenvector and its corresponding eigenvalue
 
 
-   def compute_svd(self, num_iterations=1000):
-    AT = self.transpose()  #transpose the matrix
-    ATA = noLibraryMatrix(AT).MM(self.M1)   #matrix product ATA = AT * A
-    eigen_vector, approx_eigenvalue = self.power_iteration(num_iterations=num_iterations)  #power iteration to find the dominant eigenvector and its corresponding eigenvalue
-    sigma = approx_eigenvalue ** 0.5   #compute the singular value sigma from the square root of the eigenvalue
-    
-    Sigma = [sigma]   #construct the approximate singular value matrix Sigma
-    U = [eigen_vector] #construct the approximate left singular vector matrix U with the found eigenvector
-    V = [eigen_vector] #construct the approximate right singular vector matrix V with the found eigenvector (does not fully represent V in SVD as V is not transposed)
+    def compute_svd(self, num_iterations=1000):
+        AT = self.transpose()  #transpose the matrix
+        ATA = noLibraryMatrix(AT).MM(self.M1)   #matrix product ATA = AT * A
+        eigen_vector, approx_eigenvalue = self.power_iteration(num_iterations=num_iterations)  #power iteration to find the dominant eigenvector and its corresponding eigenvalue
+        sigma = approx_eigenvalue ** 0.5   #compute the singular value sigma from the square root of the eigenvalue
+        
+        Sigma = [sigma]   #construct the approximate singular value matrix Sigma
+        U = [eigen_vector] #construct the approximate left singular vector matrix U with the found eigenvector
+        V = [eigen_vector] #construct the approximate right singular vector matrix V with the found eigenvector (does not fully represent V in SVD as V is not transposed)
 
-    return U, Sigma, V
+        return U, Sigma, V
 
 class DenseMatrix(noLibraryMatrix): #new class inheriting from the noLibraryMatrix class
     def __init__(self, M1):
@@ -225,4 +225,3 @@ test = noLibraryMatrix(matrix_values3)
 norm = test.eigenvalues()
 
 print(norm)'''
-
