@@ -1,3 +1,7 @@
+import numpy as np
+
+Random_500x500_matrix = np.random.randint(0, 101, size=(500, 500))
+
 """#MAIN
 
 import Part_1_Q_1 
