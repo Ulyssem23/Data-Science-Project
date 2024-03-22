@@ -133,19 +133,17 @@ def power_iteration(self, num_iterations=1000):
     return b_k, approx_eigenvalue   #return the dominant eigenvector and its corresponding eigenvalue
 
 
-    def compute_svd(self, num_iterations=1000):
-        AT = self.transpose()
-        ATA = noLibraryMatrix(AT).MM(self.M1)  # Correct multiplication order for ATA
-        eigen_vector, approx_eigenvalue = self.power_iteration(num_iterations=num_iterations)
+   def compute_svd(self, num_iterations=1000):
+    AT = self.transpose()  #transpose the matrix
+    ATA = noLibraryMatrix(AT).MM(self.M1)   #matrix product ATA = AT * A
+    eigen_vector, approx_eigenvalue = self.power_iteration(num_iterations=num_iterations)  #power iteration to find the dominant eigenvector and its corresponding eigenvalue
+    sigma = approx_eigenvalue ** 0.5   #compute the singular value sigma from the square root of the eigenvalue
+    
+    Sigma = [sigma]   #construct the approximate singular value matrix Sigma
+    U = [eigen_vector] #construct the approximate left singular vector matrix U with the found eigenvector
+    V = [eigen_vector] #construct the approximate right singular vector matrix V with the found eigenvector (does not fully represent V in SVD as V is not transposed)
 
-        # Simplify the computation for U, Sigma, V based on power iteration results
-        # Note: This is a simplified approach and does not fully compute SVD for educational purposes
-        sigma = approx_eigenvalue ** 0.5
-        U = [eigen_vector]  # This simplification does not fully represent U in SVD
-        Sigma = [sigma]
-        V = [eigen_vector]  # Simplification, does not fully represent V in SVD as V is not transposed
-
-        return U, Sigma, V
+    return U, Sigma, V
 
 
 #PART 2 AGAIN
