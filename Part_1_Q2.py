@@ -20,16 +20,16 @@ class noLibraryMatrix: #create a new class
         return result
 
     def MV(self, vector): #vector matrix multiplication
-            self.vector = vector  #store the vector as an attribute of the class
-            is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)   #check if the vector is one-dimensional 
-            if not is_one_dimensional:
-                raise ValueError("Vector's dimension is incorrect")   #if the vector is not one-dimensional, raise a ValueError
-            result = [0] * len(self.M1)   #initialize a result list with zeros
-        
-            for i in range(len(self.M1)):  #iterate over the rows of M1
-                for k in range(len(vector)):   #iterate over the elements of the vector
-                    result[i] += self.M1[i][k] * vector[k]  #multiply  elements of M1 and the vector and add to the result
-            return result
+        self.vector = vector  #store the vector as an attribute of the class
+        is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)   #check if the vector is one-dimensional 
+        if not is_one_dimensional:
+            raise ValueError("Vector's dimension is incorrect")   #if the vector is not one-dimensional, raise a ValueError
+        result = [0] * len(self.M1)   #initialize a result list with zeros
+            
+        for i in range(len(self.M1)):  #iterate over the rows of M1
+            for k in range(len(vector)):   #iterate over the elements of the vector
+                result[i] += self.M1[i][k] * vector[k]  #multiply  elements of M1 and the vector and add to the result
+        return result
 
     def ADD(self, M3): #addition
         self.M3 = M3  #store  M3 as an attribute of the class
@@ -86,53 +86,6 @@ class noLibraryMatrix: #create a new class
             row_sum = sum(abs(self.M1[i][j]) for j in range(cols))  #compute absolute sum of elements in the current row
             max_sum = max(max_sum, row_sum)   # Update the maximum absolute row sum if necessary
         return max_sum
-
-import time
-import numpy as np
-import matplotlib.pyplot as plt
-
-    # Define test cases for matrices of size 500×500
-   def generate_test_case(size):
-    return np.random.rand(size, size)
-
-# Define functions to measure time for operations on sparse and dense matrices
-   def measure_time(operation, matrix):
-    start_time = time.time()
-    result = operation(matrix)
-    end_time = time.time()
-    return end_time - start_time
-
-# Define functions to compare performance of sparse and dense matrices
-   def compare_performance(matrix_size):
-    dense_matrix = generate_test_case(matrix_size)
-    sparse_matrix = {i: {j: np.random.rand() for j in range(matrix_size)} for i in range(matrix_size)}
-
-    dense_time = measure_time(noLibraryMatrix.MM, dense_matrix)
-    sparse_time = measure_time(SparseMatrix.sparseMM, sparse_matrix)
-
-    return dense_time, sparse_time
-
-# Measure performance for increasing matrix sizes
-matrix_sizes = [500 * 2**i for i in range(7)]  # Starting from 500 and doubling the size until reaching computational limits
-dense_times = []
-sparse_times = []
-
-  for size in matrix_sizes:
-    dense_time, sparse_time = compare_performance(size)
-    dense_times.append(dense_time)
-    sparse_times.append(sparse_time)
-
-# Plot the performance comparison results
-plt.figure(figsize=(10, 6))
-plt.plot(matrix_sizes, dense_times, marker='o', label='Dense Matrix')
-plt.plot(matrix_sizes, sparse_times, marker='o', label='Sparse Matrix')
-plt.xlabel('Matrix Size')
-plt.ylabel('Time (s)')
-plt.title('Performance Comparison of Sparse and Dense Matrices')
-plt.legend()
-plt.grid(True)
-plt.show()
-
 
 
 #PART 3 NOW
@@ -255,11 +208,6 @@ class SparseMatrix(noLibraryMatrix):  # new class inheriting from noLibraryMatri
                 break  #exit the loop if convergence criteria are met
             x = x_new.copy()  #update the solution vector for the next iteration
         return x  
-
-
-
-
-
 
 
 '''matrix_values = [[1, 2, 3],
