@@ -8,6 +8,7 @@ Random_500x1_vector = np.random.randint(0, 101, size=(500, ))
 
 Random_500x500_matrix2 = np.random.randint(0, 101, size=(500, 500))
 
+Random_500x0_vector = np.random.randint(0, 101, size=(500, ))
 
 import Part_1_Q_1 
 
@@ -23,8 +24,8 @@ import Part_1_Q_2
 
 matrixx = Part_1_Q_2.noLibraryMatrix((Random_500x500_matrix))
 
-print(matrixx.MM(Random_500x500_matrix2))
-print(matrixx.MV(Random_500x1_vector))
+#print(matrixx.MM(Random_500x500_matrix2))
+print(matrixx.MV(Random_500x0_vector))
 print(matrixx.ADD(Random_500x500_matrix2))
 print(matrixx.SUB(Random_500x500_matrix2))
 print(matrixx.normL1())
