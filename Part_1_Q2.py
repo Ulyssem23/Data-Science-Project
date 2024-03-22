@@ -173,7 +173,7 @@ class DenseMatrix(noLibraryMatrix): #new class inheriting from the noLibraryMatr
             x[i] /= self.M1[i][i]  #divide by the coefficient of the variable in the equation
         return x
 
-class SparseMatrix:
+class SparseMatrix(noLibraryMatrix):
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)
         self.M1 = M1
