@@ -1,5 +1,6 @@
-class DenseMatrixSolver:
+class DenseMatrixSolver(noLibraryMatrix):
     def __init__(self, matrix, vector):
+        noLibraryMatrix.__init__(self, M1)
         self.matrix = matrix
         self.vector = vector
 
@@ -28,8 +29,9 @@ class DenseMatrixSolver:
         return x
 
 
-class SparseMatrixSolver:
+class SparseMatrixSolver(noLibraryMatrix):
     def __init__(self, matrix, vector):
+        noLibraryMatrix.__init__(self, M1)
         # Sparse matrix stored as a dictionary of keys (row, col) with non-zero values
         self.matrix = { (i,j): matrix[i][j] for i in range(len(matrix)) for j in range(len(matrix[0])) if matrix[i][j] != 0 }
         self.vector = vector
