@@ -117,7 +117,7 @@ class noLibraryMatrix: #create a new class
  def transpose(self):
     return [list(row) for row in zip(*self.M1)]   #transpose the matrix by unpacking each row and creating a new list of lists
 
-def power_iteration(self, num_iterations=1000):
+ def power_iteration(self, num_iterations=1000):
     b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector   #initialize a vector with all elements as 1.0 of the same length as columns in M1
     
     for _ in range(num_iterations):   #iterate over a specified number of iterations
@@ -173,43 +173,41 @@ class DenseMatrix(noLibraryMatrix): #new class inheriting from the noLibraryMatr
             x[i] /= self.M1[i][i]  #divide by the coefficient of the variable in the equation
         return x
 
-class SparseMatrix(noLibraryMatrix):
+class SparseMatrix(noLibraryMatrix):  # new class inheriting from noLibraryMatrix
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)
-        self.M1 = M1
+        self.M1 = M1 
 
-    def sparseMM(self, other):
-        if len(self.M1[0]) != len(other):
-            raise ValueError("Matrices dimensions are not compatible for multiplication.")
+    def sparseMM(self, other):  #sparse matrix multiplication
+        if len(self.M1[0]) != len(other):  #check if the number of columns in the first matrix matches the number of rows in the second matrix
+            raise ValueError("Matrices dimensions are not compatible for multiplication")
 
-        result = []
-        for i in range(len(self.M1)):
-            row_result = []
-            for j in range(len(other[0])):
-                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other)))
-                if element != 0:
+        result = []  #initialize the result list
+        for i in range(len(self.M1)):   #iterate over rows of the first matrix
+            row_result = []  #initialize the result for the current row
+            for j in range(len(other[0])):   #iterate over columns of the second matrix
+                element = sum(self.M1[i][k] * other[k][j] for k in range(len(other))) #compute the element of the resulting matrix at position (i, j) by summing the product of corresponding elements from the two matrices
+                if element != 0:  #if the computed element is not zero, append it to the result list
                     row_result.append((i, j, element))
-            result.append(row_result)
+            result.append(row_result) #append the result for the current row to the overall result list
         return result
+        
+    def jacobi_method(self, vector, matrix, iterations=1000, tolerance=1e-10):  #solve linear systems of equations (Jacobi iterative method)
+        n = len(vector)  #get the size of the vector (number of equations)
+        x = [0 for _ in range(n)]  #initialize the solution vector with zeros
+        x_new = x.copy()  #create a copy of the solution vector for iteration
 
-    def jacobi_method(self, vector, matrix, iterations=1000, tolerance=1e-10):
-        n = len(vector)
-        x = [0 for _ in range(n)]  # Initial guess
-        x_new = x.copy()
-
-        for _ in range(iterations):
-            for i in range(n):
-                sum_val = 0
-                for j in range(n):
-                    if i != j:
+        for _ in range(iterations): #iterate over a specified number of iterations
+            for i in range(n):  #iterate over each equation in the system
+                sum_val = 0  #initialize the sum of other terms in the equation
+                for j in range(n):    #iterate over each coefficient in the equation
+                    if i != j:  #if the coefficient is not the diagonal element add the corresponding term to the sum
                         sum_val += matrix.get((i, j), 0) * x[j]
-                x_new[i] = (vector[i] - sum_val) / matrix.get((i, i), 1)
-            if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):
-                break
-            x = x_new.copy()
-        return x
-
-
+                x_new[i] = (vector[i] - sum_val) / matrix.get((i, i), 1) #compute the new value of the variable 
+            if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):   #check for convergence by comparing the difference between the new and old solution vectors to a specified tolerance
+                break  #exit the loop if convergence criteria are met
+            x = x_new.copy()  #update the solution vector for the next iteration
+        return x  
 
 
 '''matrix_values = [[1, 2, 3],
