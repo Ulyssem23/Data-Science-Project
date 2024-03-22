@@ -175,6 +175,7 @@ class DenseMatrix(noLibraryMatrix): #new class inheriting from the noLibraryMatr
 
 class SparseMatrix:
     def __init__(self, M1):
+        noLibraryMatrix.__init__(self, M1)
         self.M1 = M1
 
     def sparseMM(self, other):
