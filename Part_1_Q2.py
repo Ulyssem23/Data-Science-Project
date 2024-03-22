@@ -145,38 +145,32 @@ def power_iteration(self, num_iterations=1000):
 
     return U, Sigma, V
 
-
-#PART 2 AGAIN
-class DenseMatrix(noLibraryMatrix):
+class DenseMatrix(noLibraryMatrix): #new class inheriting from the noLibraryMatrix class
     def __init__(self, M1):
-        noLibraryMatrix.__init__(self, M1)
+        noLibraryMatrix.__init__(self, M1)  # call constructor of the parent class 
 
-    def gaussian_elimination(self, vector):
-        n = len(self.M1)
-        # Convert self.M1 from tuple to list
-        self.M1 = list(map(list, self.M1))
-        # Convert vector from tuple to list
-        vector = list(vector)
-        for i in range(n):
-            # Partial pivoting
-            max_row = max(range(i, n), key=lambda x: abs(self.M1[x][i]))
-            self.M1[i], self.M1[max_row] = self.M1[max_row], self.M1[i]
+    def gaussian_elimination(self, vector): #perform Gaussian elimination on the matrix
+        n = len(self.M1)  #get the number of rows in matrix
+        self.M1 = list(map(list, self.M1))   #convert the matrix from tuple to list
+        vector = list(vector)  #convert the vector from tuple to list
+        
+        for i in range(n):  #iterate over rows for partial pivoting and elimination
+            max_row = max(range(i, n), key=lambda x: abs(self.M1[x][i]))  #partial pivoting: find the row with the maximum absolute value in the current column
+            self.M1[i], self.M1[max_row] = self.M1[max_row], self.M1[i]   #swap the current row with the row containing the maximum element
             vector[i], vector[max_row] = vector[max_row], vector[i]
-
-            # Normalize the pivot row
-            for j in range(i+1, n):
-                factor = self.M1[j][i] / self.M1[i][i]
-                for k in range(i, n):
+            for j in range(i+1, n):   #eliminate entries below the pivot element
+                factor = self.M1[j][i] / self.M1[i][i]   #compute the factor by which the row should be multiplied for elimination
+                for k in range(i, n):   #row operations to eliminate the element below the pivot
                     self.M1[j][k] -= factor * self.M1[i][k]
-                vector[j] -= factor * vector[i]
-
-        # Back substitution
-        x = [0 for _ in range(n)]
-        for i in range(n-1, -1, -1):
-            x[i] = vector[i]
-            for j in range(i+1, n):
-                x[i] -= self.M1[i][j] * x[j]
-            x[i] /= self.M1[i][i]
+                vector[j] -= factor * vector[i]   #back substitution on the vector
+        
+        #back substitution to find the solution vector
+        x = [0 for _ in range(n)]  #initialize the solution vector
+        for i in range(n-1, -1, -1):  #iterate backwards through the rows
+            x[i] = vector[i]  #assign the value of the vector element
+            for j in range(i+1, n):   #back substitution to solve for each variable
+                x[i] -= self.M1[i][j] * x[j]  #subtract the known terms
+            x[i] /= self.M1[i][i]  #divide by the coefficient of the variable in the equation
         return x
 
 class SparseMatrix:
