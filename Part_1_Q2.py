@@ -21,11 +21,21 @@ class noLibraryMatrix: #create a new class
 
     def MV(self, vector): #vector matrix multiplication
         self.vector = vector  #store the vector as an attribute of the class
-        is_one_dimensional = all(isinstance(x, (int, float)) for x in vector)   #check if the vector is one-dimensional 
-        if not is_one_dimensional:
+        
+        # Convert NumPy array to list if necessary
+        if hasattr(vector, '__iter__') and not isinstance(vector, list):
+            vector = list(vector)
+
+        # Check if the vector is one-dimensional 
+        if not isinstance(vector, list) or any(isinstance(x, (list, tuple)) for x in vector):
             raise ValueError("Vector's dimension is incorrect")   #if the vector is not one-dimensional, raise a ValueError
+        
+        # Check if the elements of the vector are integers or floats
+        if not all(isinstance(x, (int, float)) for x in vector):
+            raise ValueError("Vector must contain only integers or floats")
+        
         result = [0] * len(self.M1)   #initialize a result list with zeros
-            
+                
         for i in range(len(self.M1)):  #iterate over the rows of M1
             for k in range(len(vector)):   #iterate over the elements of the vector
                 result[i] += self.M1[i][k] * vector[k]  #multiply  elements of M1 and the vector and add to the result
