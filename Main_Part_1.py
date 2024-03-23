@@ -2,13 +2,17 @@
 
 import numpy as np
 
+
 Random_500x500_matrix = np.random.randint(0, 101, size=(500, 500))
 
 Random_500x1_vector = np.random.randint(0, 101, size=(500, ))
 
 Random_500x500_matrix2 = np.random.randint(0, 101, size=(500, 500))
 
-Random_500x0_vector = np.random.randint(0, 101, size=(500, ))
+
+import random
+
+Random_500x0_vector = [random.randint(0, 100) for _ in range(500)]
 
 import Part_1_Q_1 
 
@@ -24,7 +28,9 @@ import Part_1_Q_2
 
 matrixx = Part_1_Q_2.noLibraryMatrix((Random_500x500_matrix))
 
-#print(matrixx.MM(Random_500x500_matrix2))
+
+
+print(matrixx.MM(Random_500x500_matrix2))
 print(matrixx.MV(Random_500x0_vector))
 print(matrixx.ADD(Random_500x500_matrix2))
 print(matrixx.SUB(Random_500x500_matrix2))
@@ -32,6 +38,7 @@ print(matrixx.normL1())
 print(matrixx.normL2())
 print(matrixx.normLinf())
 print(matrixx.power_iteration())
+
 
 #densematrixx = Part_1_Q_2.DenseMatrix(((2, 5), (3, 6)))
 #sparsematrixx = Part_1_Q_2.SparseMatrix(((1, 2, 4), (-6, 2, 3)))
