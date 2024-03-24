@@ -52,17 +52,16 @@ class Matrix:  #define a class named Matrix
         for row in self.data:  #iterate over each row in the matrix
             print(row)  
 
-    def svd_scipy_movie(self, binary_matrix):  #method to perform SVD using SciPy
+    def svd_comparison(self, binary_matrix):  
         start_time = time.time() 
         U_scipy, s_scipy, Vt_scipy = scipy_svd(binary_matrix, full_matrices=False)  #perform SVD using SciPy
         scipy_time = time.time() - start_time  #calculate elapsed time
 
-    def svd_numpy_movie(self, binary_matrix):  #method to perform SVD using NumPy
         start_time = time.time() 
         U_numpy, s_numpy, Vt_numpy = numpy_svd(binary_matrix, full_matrices=False)  #perform SVD using NumPy
         numpy_time = time.time() - start_time  #calculate elapsed time
 
-    def comparisontime(self):  #method to compare time between SciPy and NumPy SVD
+    #method to compare time between SciPy and NumPy SVD
         if scipy_time < numpy_time:  #compare elapsed time for SciPy and NumPy
             s = s_scipy  
             U = U_scipy 
@@ -105,4 +104,3 @@ class Matrix:  #define a class named Matrix
         recommendations.sort(key=lambda x: x[1], reverse=True)  #sort recommendations by similarity
         final_recommend_list = [rec[0] for rec in recommendations[:selected_movies_num]]  #select top movies
         return final_recommend_list  #return list of recommended movies
-
