@@ -1,12 +1,4 @@
-class Matrix:
-    def __init__(self, data):
-        self.data = data
-    
-    def to_binary(self, threshold=5):
-        # Transform the matrix to binary based on the threshold
-        binary_matrix = [[1 if item > threshold else 0 for item in row] for row in self.data]
-        return binary_matrix
-
+#1
 # Example usage
 square_matrix = [
     [1, 6, 3],
@@ -19,33 +11,28 @@ non_square_matrix = [
     [1, 4, 2]
 ]
 
-# Creating Matrix objects
-square_matrix_obj = Matrix(square_matrix)
-non_square_matrix_obj = Matrix(non_square_matrix)
-
-# Transforming and printing the binary matrices
-binary_square_matrix = square_matrix_obj.to_binary()
-binary_non_square_matrix = non_square_matrix_obj.to_binary()
-
-print("Binary Square Matrix:")
-for row in binary_square_matrix:
-    print(row)
-
-print("\nBinary Non-Square Matrix:")
-for row in binary_non_square_matrix:
-    print(row)
-
-
 #2
+# Example usage
+# Generate a random non-square matrix with more rows than columns
+random_matrix = Matrix.generate_random(10, 3)  # For example, 10 rows and 3 columns
+print("Original Matrix:")
+random_matrix.display()
+
+# Transform this matrix into a binary matrix
+random_matrix.to_binary()
+print("\nBinary Matrix:")
+random_matrix.display()
+
 
 import numpy as np
+from scipy.linalg import svd as scipy_svd
+from numpy.linalg import svd as numpy_svd
+import time
+import matplotlib.pyplot as plt
 
 class Matrix:
-    def __init__(self, data=None):
-        if data is not None:
+    def __init__(self, data):
             self.data = data
-        else:
-            self.data = []
     
     @staticmethod
     def generate_random(rows, columns):
@@ -62,24 +49,9 @@ class Matrix:
         for row in self.data:
             print(row)
 
-# Example usage
-# Generate a random non-square matrix with more rows than columns
-random_matrix = Matrix.generate_random(10, 3)  # For example, 10 rows and 3 columns
-print("Original Matrix:")
-random_matrix.display()
-
-# Transform this matrix into a binary matrix
-random_matrix.to_binary()
-print("\nBinary Matrix:")
-random_matrix.display()
-
 
 #3
-import numpy as np
-from scipy.linalg import svd as scipy_svd
-from numpy.linalg import svd as numpy_svd
-import time
-import matplotlib.pyplot as plt
+
 
 # Assume binary_matrix is your ratings matrix
 # For demonstration, let's create a binary matrix as an example
