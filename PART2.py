@@ -65,10 +65,17 @@ class Matrix:
         numpy_time = time.time() - start_time
 
     def comparisontime(self):
-    if scipy_time < numpy_time:
-        s = s_scipy
-    else:
-        s = s_numpy
+        if scipy_time < numpy_time:
+            s = s_scipy
+            U = U_scipy
+            Vt = Vt_scipy
+        else:
+            s = s_numpy
+            U = U_numpy
+            Vt = Vt_numpy
+        
+    return U, s, Vt
+        
 
     def  plot_singular_values(self):
         plt.figure(figsize=(10, 6))
@@ -81,60 +88,17 @@ class Matrix:
         plt.show()
 
 
-
-
-import time
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.linalg import svd as scipy_svd
-from numpy.linalg import svd as numpy_svd
-
-def perform_svd_and_compare(binary_matrix):
-    # Perform SVD using scipy
-    start_time_scipy = time.time()
-    U_scipy, s_scipy, Vt_scipy = scipy_svd(binary_matrix, full_matrices=False)
-    scipy_time = time.time() - start_time_scipy
-
-    # Perform SVD using numpy
-    start_time_numpy = time.time()
-    U_numpy, s_numpy, Vt_numpy = numpy_svd(binary_matrix, full_matrices=False)
-    numpy_time = time.time() - start_time_numpy
-
-    # Compare and keep the best
-    if scipy_time < numpy_time:
-        s = s_scipy
-        U = U_scipy
-        Vt = Vt_scipy
-        print(f"Scipy was faster: {scipy_time}s")
-    else:
-        s = s_numpy
-        U = U_numpy
-        Vt = Vt_numpy
-        print(f"Numpy was faster: {numpy_time}s")
-
-    return U, s, Vt
-
-def plot_singular_values(s):
-    plt.figure(figsize=(10, 6))
-    plt.plot(s, 'bo-')
-    plt.title('Singular Values of the Ratings Matrix')
-    plt.xlabel('Singular Value Index')
-    plt.ylabel('Singular Value Magnitude')
-    plt.yscale('log')
-    plt.grid(True)
-    plt.show()
-
-def reduce_and_print_matrices(U, s, Vt, k):
-    # Reduce dimensions
-    U_k = U[:, :k]
-    S_k = np.diag(s[:k])
-    Vt_k = Vt[:k, :]
-
-    # Print the reduced matrices
-    print("Reduced U (U_k):")
-    print(U_k)
-    print("\nReduced V^T (Vt_k):")
-    print(Vt_k)
+    def reduce_matrices(U, s, Vt, k):
+        # Reduce dimensions
+        U_k = U[:, :k]
+        S_k = np.diag(s[:k])
+        Vt_k = Vt[:k, :]
+    
+        # Print the reduced matrices
+        print("Reduced U (U_k):")
+        print(U_k)
+        print("\nReduced V^T (Vt_k):")
+        print(Vt_k)
 
 # Assume binary_matrix is defined
 # U, s, Vt = perform_svd_and_compare(binary_matrix)
