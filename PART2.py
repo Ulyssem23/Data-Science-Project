@@ -83,7 +83,7 @@ class Matrix:
 
 
 #4
-import numpy as np
+ def print_singularvalues(self):
 
 # Example SVD results
 U, s, Vt = np.linalg.svd(binary_matrix, full_matrices=False)
@@ -106,40 +106,13 @@ print(Vt_k)
 
 #5
 
-Algorithm 1: Recommendation Algorithm
-Input: liked_movie_index, VT, selected_movies_num
-Output: final_recommend_list
+    def recommend(self, liked_movie_index, VT, selected_movies_num):
+        recommendations = []
+        for i in range(len(VT.T)):  # Accessing each movie's features
+            if i != liked_movie_index:
+                similarity = np.dot(VT[:, liked_movie_index], VT[:, i])
+                recommendations.append((i, similarity))
+        recommendations.sort(key=lambda x: x[1], reverse=True)
+        final_recommend_list = [rec[0] for rec in recommendations[:selected_movies_num]]
+        return final_recommend_list
 
-1 Function recommend(liked_movie_index, VT, selected_movies_num):
-2     recommendations = []
-3     for i in range(len(VT.T)):  # Iterate over the movies in VT
-4         if i != liked_movie_index:
-5             # Calculate the dot product for similarity
-6             similarity = dotProduct(VT[:, liked_movie_index], VT[:, i])
-7             recommendations.append((i, similarity))
-8     # Sort movies based on similarity in descending order
-9     recommendations.sort(key=lambda x: x[1], reverse=True)
-10    # Select top N movies based on the 'selected_movies_num'
-11    final_recommend_list = [rec[0] for rec in recommendations[:selected_movies_num]]
-12    return final_recommend_list
-
-
-#le code
-import numpy as np
-
-def recommend(liked_movie_index, VT, selected_movies_num):
-    recommendations = []
-    for i in range(len(VT.T)):  # Accessing each movie's features
-        if i != liked_movie_index:
-            similarity = np.dot(VT[:, liked_movie_index], VT[:, i])
-            recommendations.append((i, similarity))
-    recommendations.sort(key=lambda x: x[1], reverse=True)
-    final_recommend_list = [rec[0] for rec in recommendations[:selected_movies_num]]
-    return final_recommend_list
-
-# Example usage assumes VT is already defined and liked_movie_index is known
-# liked_movie_index = ...
-# VT = ...  # Obtained from SVD
-# selected_movies_num = 2
-# recommendations = recommend(liked_movie_index, VT, selected_movies_num)
-# print("Recommended Movie Indices:", recommendations)
