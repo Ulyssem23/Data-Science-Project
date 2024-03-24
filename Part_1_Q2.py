@@ -3,7 +3,7 @@ class noLibraryMatrix: #create a new class
         self.M1 = M1  #store M1 as an attribute of the class
 
 #create basic operations for matrices without using libraries
-
+    @profile
     def MM(self, M2):  #matrix multiplication
         self.M2 = M2  #store M2 as an attribute of the class
         
@@ -19,6 +19,7 @@ class noLibraryMatrix: #create a new class
                     result[i][j] += self.M1[i][k] * self.M2[k][j]   #compute dot product between the ith row of M1 and the kth column of M2 + update each element of the result matrix
         return result
 
+    @profile
     def MV(self, vector): #vector matrix multiplication
         self.vector = vector  #store the vector as an attribute of the class
         
@@ -41,6 +42,7 @@ class noLibraryMatrix: #create a new class
                 result[i] += self.M1[i][k] * vector[k]  #multiply  elements of M1 and the vector and add to the result
         return result
 
+    @profile
     def ADD(self, M3): #addition
         self.M3 = M3  #store  M3 as an attribute of the class
         result = []  #initialize result list
@@ -52,6 +54,7 @@ class noLibraryMatrix: #create a new class
             result.append(row)   #append row to the result matrix
         return result 
 
+    @profile
     def SUB(self, M3): #substraction
         self.M3 = M3   #store  M3 as an attribute of the class
         result = []   #initialize an empty list to store the result matrix
@@ -62,6 +65,7 @@ class noLibraryMatrix: #create a new class
             result.append(row)
         return result
 
+    @profile
     def normL1(self):
         #The L1 norm of a matrix is defined as the maximum absolute column sum of the matrix.
        
@@ -73,7 +77,8 @@ class noLibraryMatrix: #create a new class
                 col_sum += abs(self.M1[i][j]) 
             max_col_sum = max(max_col_sum, col_sum)  #update the maximum absolute column sum if necessary
         return max_col_sum
-    
+
+    @profile
     def normL2(self):
         #The L2 norm of a matrix is defined as the square root of the sum of the squares of all the elements in the matrix.
         
@@ -85,7 +90,8 @@ class noLibraryMatrix: #create a new class
 
         l2_norm = sum_of_squares ** 0.5   #take the square root of the sum to get the L2 norm
         return l2_norm
-    
+
+    @profile
     def normLinf(self):
         #The L∞ norm of a matrix is defined as the maximum absolute row sum of the matrix
         max_sum = 0
@@ -123,10 +129,11 @@ class noLibraryMatrix: #create a new class
             subtracted_matrix = self.SUB(identity)
             return subtracted_matrix
             """
-
+    @profile
     def transpose(self):
         return [list(row) for row in zip(*self.M1)]   #transpose the matrix by unpacking each row and creating a new list of lists
 
+    @profile
     def power_iteration(self, num_iterations=1000):
         b_k = [1.0] * len(self.M1[0])  # Assuming column size for initial vector   #initialize a vector with all elements as 1.0 of the same length as columns in M1
         
@@ -142,7 +149,7 @@ class noLibraryMatrix: #create a new class
         
         return b_k, approx_eigenvalue   #return the dominant eigenvector and its corresponding eigenvalue
 
-
+    @profile
     def compute_svd(self, num_iterations=1000):
         AT = self.transpose()  #transpose the matrix
         ATA = noLibraryMatrix(AT).MM(self.M1)   #matrix product ATA = AT * A
@@ -159,6 +166,7 @@ class DenseMatrix(noLibraryMatrix): #new class inheriting from the noLibraryMatr
     def __init__(self, M1):
         noLibraryMatrix.__init__(self, M1)  # call constructor of the parent class 
 
+    @profile
     def gaussian_elimination(self, vector): #perform Gaussian elimination on the matrix
         n = len(self.M1)  #get the number of rows in matrix
         self.M1 = list(map(list, self.M1))   #convert the matrix from tuple to list
@@ -188,6 +196,7 @@ class SparseMatrix(noLibraryMatrix):  # new class inheriting from noLibraryMatri
         noLibraryMatrix.__init__(self, M1)
         self.M1 = M1 
 
+    @profile
     def sparseMM(self, other):  #sparse matrix multiplication
         if len(self.M1[0]) != len(other):  #check if the number of columns in the first matrix matches the number of rows in the second matrix
             raise ValueError("Matrices dimensions are not compatible for multiplication")
@@ -201,7 +210,8 @@ class SparseMatrix(noLibraryMatrix):  # new class inheriting from noLibraryMatri
                     row_result.append((i, j, element))
             result.append(row_result) #append the result for the current row to the overall result list
         return result
-        
+
+    @profile
     def jacobi_method(self, vector, matrix, iterations=1000, tolerance=1e-10):  #solve linear systems of equations (Jacobi iterative method)
         n = len(vector)  #get the size of the vector (number of equations)
         x = [0 for _ in range(n)]  #initialize the solution vector with zeros
