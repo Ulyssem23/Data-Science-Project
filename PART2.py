@@ -23,6 +23,11 @@ random_matrix.to_binary()
 print("\nBinary Matrix:")
 random_matrix.display()
 
+#3
+
+np.random.seed(0)
+binary_matrix = np.random.randint(2, size=(100, 50))
+
 
 import numpy as np
 from scipy.linalg import svd as scipy_svd
@@ -49,46 +54,31 @@ class Matrix:
         for row in self.data:
             print(row)
 
+    def svd_scipy_movie(self, binary_matrix):
+        start_time = time.time()
+        U_scipy, s_scipy, Vt_scipy = scipy_svd(binary_matrix, full_matrices=False)
+        scipy_time = time.time() - start_time
 
-#3
+    def svd_numpy_movie(self, binary_matrix):
+        start_time = time.time()
+        U_numpy, s_numpy, Vt_numpy = numpy_svd(binary_matrix, full_matrices=False)
+        numpy_time = time.time() - start_time
 
+    def comparisontime(self):
+    if scipy_time < numpy_time:
+        s = s_scipy
+    else:
+        s = s_numpy
 
-# Assume binary_matrix is your ratings matrix
-# For demonstration, let's create a binary matrix as an example
-np.random.seed(0)
-binary_matrix = np.random.randint(2, size=(100, 50))
-
-# SciPy SVD
-start_time = time.time()
-U_scipy, s_scipy, Vt_scipy = scipy_svd(binary_matrix, full_matrices=False)
-scipy_time = time.time() - start_time
-
-# NumPy SVD
-start_time = time.time()
-U_numpy, s_numpy, Vt_numpy = numpy_svd(binary_matrix, full_matrices=False)
-numpy_time = time.time() - start_time
-
-print(f"SciPy SVD computation time: {scipy_time:.4f} seconds")
-print(f"NumPy SVD computation time: {numpy_time:.4f} seconds")
-
-# Choosing the faster method for further operations
-if scipy_time < numpy_time:
-    s = s_scipy
-    print("Using SciPy SVD for further operations.")
-else:
-    s = s_numpy
-    print("Using NumPy SVD for further operations.")
-
-
-
-plt.figure(figsize=(10, 6))
-plt.plot(s, 'bo-')
-plt.title('Singular Values of the Ratings Matrix')
-plt.xlabel('Singular Value Index')
-plt.ylabel('Singular Value Magnitude')
-plt.yscale('log')  # Use logarithmic scale to better visualize the drop-off
-plt.grid(True)
-plt.show()
+    def  plot_singular_values(self):
+        plt.figure(figsize=(10, 6))
+        plt.plot(s, 'bo-')
+        plt.title('Singular Values of the Ratings Matrix')
+        plt.xlabel('Singular Value Index')
+        plt.ylabel('Singular Value Magnitude')
+        plt.yscale('log')  # Use logarithmic scale to better visualize the drop-off
+        plt.grid(True)
+        plt.show()
 
 
 
