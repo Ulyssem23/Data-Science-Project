@@ -29,94 +29,80 @@ np.random.seed(0)
 binary_matrix = np.random.randint(2, size=(100, 50))
 
 
-import numpy as np
-from scipy.linalg import svd as scipy_svd
-from numpy.linalg import svd as numpy_svd
-import time
-import matplotlib.pyplot as plt
+import numpy as np  
+from scipy.linalg import svd as scipy_svd  
+from numpy.linalg import svd as numpy_svd  
+import time  
+import matplotlib.pyplot as plt 
 
-class Matrix:
-    def __init__(self, data):
-            self.data = data
+class Matrix:  #define a class named Matrix
+    def __init__(self, data): 
+        self.data = data  
     
-    @staticmethod
-    def generate_random(rows, columns):
-        # Generate a non-square matrix with random data
-        data = np.random.randint(10, size=(rows, columns)).tolist()
-        return Matrix(data)
+    @staticmethod  #decorator to define a static method
+    def generate_random(rows, columns): 
+        data = np.random.randint(10, size=(rows, columns)).tolist()    #generate a non-square matrix with random data
+        return Matrix(data)  
     
-    def to_binary(self, threshold=5):
-        # Transform the matrix to binary using a lambda function
-        binary_transform = lambda x: 1 if x > threshold else 0
-        self.data = [[binary_transform(item) for item in row] for row in self.data]
+    def to_binary(self, threshold=5):  #method to convert matrix data to binary
+        binary_transform = lambda x: 1 if x > threshold else 0    #transform the matrix to binary using a lambda function
+        self.data = [[binary_transform(item) for item in row] for row in self.data]  #apply binary transformation to each element
     
-    def display(self):
-        for row in self.data:
-            print(row)
+    def display(self):  #method to display matrix
+        for row in self.data:  #iterate over each row in the matrix
+            print(row)  
 
-    def svd_scipy_movie(self, binary_matrix):
-        start_time = time.time()
-        U_scipy, s_scipy, Vt_scipy = scipy_svd(binary_matrix, full_matrices=False)
-        scipy_time = time.time() - start_time
+    def svd_scipy_movie(self, binary_matrix):  #method to perform SVD using SciPy
+        start_time = time.time() 
+        U_scipy, s_scipy, Vt_scipy = scipy_svd(binary_matrix, full_matrices=False)  #perform SVD using SciPy
+        scipy_time = time.time() - start_time  #calculate elapsed time
 
-    def svd_numpy_movie(self, binary_matrix):
-        start_time = time.time()
-        U_numpy, s_numpy, Vt_numpy = numpy_svd(binary_matrix, full_matrices=False)
-        numpy_time = time.time() - start_time
+    def svd_numpy_movie(self, binary_matrix):  #method to perform SVD using NumPy
+        start_time = time.time() 
+        U_numpy, s_numpy, Vt_numpy = numpy_svd(binary_matrix, full_matrices=False)  #perform SVD using NumPy
+        numpy_time = time.time() - start_time  #calculate elapsed time
 
-    def comparisontime(self):
-        if scipy_time < numpy_time:
-            s = s_scipy
-            U = U_scipy
-            Vt = Vt_scipy
-        else:
-            s = s_numpy
-            U = U_numpy
-            Vt = Vt_numpy
-        
-    return U, s, Vt
-        
+    def comparisontime(self):  #method to compare time between SciPy and NumPy SVD
+        if scipy_time < numpy_time:  #compare elapsed time for SciPy and NumPy
+            s = s_scipy  
+            U = U_scipy 
+            Vt = Vt_scipy  
+        else:  #if NumPy SVD is faster or equally fast
+            s = s_numpy  
+            U = U_numpy  
+            Vt = Vt_numpy  
+        return U, s, Vt  
 
-    def  plot_singular_values(self):
-        plt.figure(figsize=(10, 6))
-        plt.plot(s, 'bo-')
-        plt.title('Singular Values of the Ratings Matrix')
-        plt.xlabel('Singular Value Index')
-        plt.ylabel('Singular Value Magnitude')
-        plt.yscale('log')  # Use logarithmic scale to better visualize the drop-off
-        plt.grid(True)
-        plt.show()
+    def plot_singular_values(self):  #method to plot singular values
+        plt.figure(figsize=(10, 6))  #create a new figure
+        plt.plot(s, 'bo-')  #plot singular values
+        plt.title('Singular Values of the Ratings Matrix')  #set title of the plot
+        plt.xlabel('Singular Value Index')  #set x-axis label
+        plt.ylabel('Singular Value Magnitude')  #set y-axis label
+        plt.yscale('log')  #use logarithmic scale for y-axis
+        plt.grid(True)  #display grid lines
+        plt.show()  #show the plot
 
-
-    def reduce_matrices(U, s, Vt, k):
-        # Reduce dimensions
-        U_k = U[:, :k]
-        S_k = np.diag(s[:k])
-        Vt_k = Vt[:k, :]
+    @staticmethod  #decorator to define a static method
+    def reduce_matrices(U, s, Vt, k):  #static method to reduce matrices
+        #reduce dimensions
+        U_k = U[:, :k]  #select first k columns of U
+        S_k = np.diag(s[:k])  #select first k singular values as diagonal matrix
+        Vt_k = Vt[:k, :]  #select first k rows of Vt
     
-        # Print the reduced matrices
-        print("Reduced U (U_k):")
-        print(U_k)
-        print("\nReduced V^T (Vt_k):")
-        print(Vt_k)
+        #print the reduced matrices
+        print("Reduced U (U_k):") 
+        print(U_k)  
+        print("\nReduced V^T (Vt_k):") 
+        print(Vt_k) 
 
-# Assume binary_matrix is defined
-# U, s, Vt = perform_svd_and_compare(binary_matrix)
-# plot_singular_values(s)
-# Choose k based on your criterion
-# k = 10  # Example value
-# reduce_and_print_matrices(U, s, Vt, k)
-
-
-#5
-
-    def recommend(self, liked_movie_index, VT, selected_movies_num):
-        recommendations = []
-        for i in range(len(VT.T)):  # Accessing each movie's features
-            if i != liked_movie_index:
-                similarity = np.dot(VT[:, liked_movie_index], VT[:, i])
-                recommendations.append((i, similarity))
-        recommendations.sort(key=lambda x: x[1], reverse=True)
-        final_recommend_list = [rec[0] for rec in recommendations[:selected_movies_num]]
-        return final_recommend_list
+    def recommend(self, liked_movie_index, VT, selected_movies_num):  #method to recommend movies
+        recommendations = []  #initialize list for recommendations
+        for i in range(len(VT.T)):  #iterate over each movie's features
+            if i != liked_movie_index:  #exclude liked movie index
+                similarity = np.dot(VT[:, liked_movie_index], VT[:, i])  #compute cosine similarity
+                recommendations.append((i, similarity))  #append movie index and similarity to recommendations
+        recommendations.sort(key=lambda x: x[1], reverse=True)  #sort recommendations by similarity
+        final_recommend_list = [rec[0] for rec in recommendations[:selected_movies_num]]  #select top movies
+        return final_recommend_list  #return list of recommended movies
 
