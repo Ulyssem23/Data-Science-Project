@@ -268,20 +268,44 @@ class SparseMatrix(noLibraryMatrix):  # new class inheriting from noLibraryMatri
             result.append(row_result) #append the result for the current row to the overall result list
         return result
         
-    def jacobi_method(self, vector, matrix, iterations=1000, tolerance=1e-10):  #solve linear systems of equations (Jacobi iterative method)
-        n = len(vector)  #get the size of the vector (number of equations)
-        x = [0 for _ in range(n)]  #initialize the solution vector with zeros
-        x_new = x.copy()  #create a copy of the solution vector for iteration
 
-        for _ in range(iterations): #iterate over a specified number of iterations
-            for i in range(n):  #iterate over each equation in the system
-                sum_val = 0  #initialize the sum of other terms in the equation
-                for j in range(n):    #iterate over each coefficient in the equation
-                    if i != j:  #if the coefficient is not the diagonal element add the corresponding term to the sum
-                        sum_val += matrix.get((i, j), 0) * x[j]
-                x_new[i] = (vector[i] - sum_val) / matrix.get((i, i), 1) #compute the new value of the variable 
-            if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):   #check for convergence by comparing the difference between the new and old solution vectors to a specified tolerance
-                break  #exit the loop if convergence criteria are met
-            x = x_new.copy()  #update the solution vector for the next iteration
+    def jacobi_method(self, vector, matrix, iterations=1000, tolerance=1e-10): 
+        n = len(vector)
+        x = [0 for _ in range(n)]
+        x_new = x.copy()
+
+        # Find the maximum absolute value in the matrix
+        max_val = 0
+        for i in range(n):
+            for j in range(n):
+                max_val = max(max_val, abs(matrix[i][j]))
+
+        # Normalize matrix and vector
+        if max_val != 0:
+            for i in range(n):
+                vector[i] /= max_val
+                for j in range(n):
+                    matrix[i][j] /= max_val
+
+        for _ in range(iterations):
+            for i in range(n):
+                sum_val = 0
+                for j in range(n):
+                    if i != j:
+                        sum_val += matrix[i][j] * x[j]
+                if matrix[i][i] != 0:  # Check if diagonal element is not zero
+                    x_new[i] = (vector[i] - sum_val) / matrix[i][i]
+                else:
+                    x_new[i] = 0  # Handle division by zero by setting the value to 0
+            
+            if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):
+                break
+            x = x_new.copy()
+
+        # Denormalize solution
+        if max_val != 0:
+            for i in range(n):
+                x[i] *= max_val
+
         return x
 ###########################################################################################################################################################
