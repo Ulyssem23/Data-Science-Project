@@ -1,6 +1,5 @@
 #Part_1_Q_5
-import Part_1_Q_1
-import Part_1_Q_2
+import Part_1
 import numpy as np
 import random
 import time
@@ -37,11 +36,11 @@ Random_300x0_vector = [np.random.randint(0, 100) for _ in range(300)]
 Random_400x0_vector = [np.random.randint(0, 100) for _ in range(400)]
 Random_500x0_vector = [np.random.randint(0, 100) for _ in range(500)]
 
-P1100 = Part_1_Q_1.matrix(Random_100x100_matrix)
-P1200 = Part_1_Q_1.matrix(Random_200x200_matrix)
-P1300 = Part_1_Q_1.matrix(Random_300x300_matrix)
-P1400 = Part_1_Q_1.matrix(Random_400x400_matrix)
-P1500 = Part_1_Q_1.matrix(Random_500x500_matrix)
+P1100 = Part_1.matrix_Q1(Random_100x100_matrix)
+P1200 = Part_1.matrix_Q1(Random_200x200_matrix)
+P1300 = Part_1.matrix_Q1(Random_300x300_matrix)
+P1400 = Part_1.matrix_Q1(Random_400x400_matrix)
+P1500 = Part_1.matrix_Q1(Random_500x500_matrix)
 
 
 def MM_Q1(n):
@@ -132,11 +131,11 @@ def SUB_Q1(n):
     plt.show()
 #SUB_Q1(10)
 
-P1Q2100 = Part_1_Q_2.noLibraryMatrix((Random_100x100_matrix))
-P1Q2200 = Part_1_Q_2.noLibraryMatrix((Random_200x200_matrix))
-P1Q2300 = Part_1_Q_2.noLibraryMatrix((Random_300x300_matrix))
-P1Q2400 = Part_1_Q_2.noLibraryMatrix((Random_400x400_matrix))
-P1Q2500 = Part_1_Q_2.noLibraryMatrix((Random_500x500_matrix))
+P1Q2100 = Part_1.noLibraryMatrix((Random_100x100_matrix))
+P1Q2200 = Part_1.noLibraryMatrix((Random_200x200_matrix))
+P1Q2300 = Part_1.noLibraryMatrix((Random_300x300_matrix))
+P1Q2400 = Part_1.noLibraryMatrix((Random_400x400_matrix))
+P1Q2500 = Part_1.noLibraryMatrix((Random_500x500_matrix))
 
 def MM_Q2(n):
     matrix_sizes = [100, 200, 300, 400, 500]
@@ -365,11 +364,11 @@ def compute_svd_Q2(n):
     plt.show()
 #compute_svd_Q2(2)
 
-P1D100 = Part_1_Q_2.DenseMatrix((Random_100x100_matrix))
-P1D200 = Part_1_Q_2.DenseMatrix((Random_200x200_matrix))
-P1D300 = Part_1_Q_2.DenseMatrix((Random_300x300_matrix))
-P1D400 = Part_1_Q_2.DenseMatrix((Random_400x400_matrix))
-P1D500 = Part_1_Q_2.DenseMatrix((Random_500x500_matrix))
+P1D100 = Part_1.DenseMatrix((Random_100x100_matrix))
+P1D200 = Part_1.DenseMatrix((Random_200x200_matrix))
+P1D300 = Part_1.DenseMatrix((Random_300x300_matrix))
+P1D400 = Part_1.DenseMatrix((Random_400x400_matrix))
+P1D500 = Part_1.DenseMatrix((Random_500x500_matrix))
 
 def gaussian_elimination_Q3(n):
     matrix_sizes = [100, 200, 300, 400, 500]
@@ -393,11 +392,11 @@ def gaussian_elimination_Q3(n):
     plt.show()
 #gaussian_elimination_Q3(5)
 
-P1S100 = Part_1_Q_2.SparseMatrix((Random_100x100_matrix))
-P1S200 = Part_1_Q_2.SparseMatrix((Random_200x200_matrix))
-P1S300 = Part_1_Q_2.SparseMatrix((Random_300x300_matrix))
-P1S400 = Part_1_Q_2.SparseMatrix((Random_400x400_matrix))
-P1S500 = Part_1_Q_2.SparseMatrix((Random_500x500_matrix))
+P1S100 = Part_1.SparseMatrix((Random_100x100_matrix))
+P1S200 = Part_1.SparseMatrix((Random_200x200_matrix))
+P1S300 = Part_1.SparseMatrix((Random_300x300_matrix))
+P1S400 = Part_1.SparseMatrix((Random_400x400_matrix))
+P1S500 = Part_1.SparseMatrix((Random_500x500_matrix))
 
 def sparse_MM_Q3(n):
     matrix_sizes = [100, 200, 300, 400, 500]
@@ -411,7 +410,7 @@ def sparse_MM_Q3(n):
             duration = end_time - start_time
             times[i].append(duration)
 
-        plt.plot(range(1, n+1), times[i], marker='o', label=f'500x1')
+        plt.plot(range(1, n+1), times[i], marker='o', label=f'{size}x{size}')
 
     plt.xlabel('Iteration')
     plt.ylabel('Time (seconds)')
